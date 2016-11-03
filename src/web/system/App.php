@@ -1,7 +1,6 @@
 <?php
 namespace system;
 
-
 use system\Database\MysqlDatabase;
 
 class App{
@@ -40,6 +39,10 @@ class App{
     }
 
 
+    public function getConfig($name) {
+        $config = Config::getInstance(APP_PATH . '/config/config.php');
+        return $config->get($name);
+    }
 
 
 }
