@@ -39,7 +39,7 @@ class App{
     }
 
 
-    public function getConfig($name) {
+    public static function getConfig($name) {
         $config = Config::getInstance(APP_PATH . '/config/config.php');
         return $config->get($name);
     }
