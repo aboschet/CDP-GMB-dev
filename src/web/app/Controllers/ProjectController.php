@@ -13,7 +13,7 @@ class ProjectController extends AppController{
         }
     }
     public function index(){
-       $this->show_404();
+       $this->notFound();
     }
 
     public function all() {

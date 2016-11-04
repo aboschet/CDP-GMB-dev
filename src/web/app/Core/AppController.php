@@ -22,8 +22,5 @@ class AppController extends Controller{
     }
 
 
-    protected function redirect($url) {
-      header('location: '.$url);
-      exit(0);
-    }
+   
 }

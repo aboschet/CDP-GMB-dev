@@ -26,4 +26,10 @@ class Controller{
         die('Page introuvable');
     }
 
+    protected function redirect($url) {
+      header('location: '.$url);
+      exit(0);
+    }
+    
+    
 }

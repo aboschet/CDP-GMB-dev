@@ -19,4 +19,9 @@ class HomeController extends AppController{
       $_SESSION['auth'] = 1;
       $this->redirect(dirname($_SERVER['PHP_SELF']).'/Home');
     }
+
+    public function disconnect(){
+      session_unset();
+      $this->redirect(BASE_URL.'Home');
+    }
 }
