@@ -25,21 +25,25 @@
       <div class="container">
         <div class="navbar-header">
 
-          <a class="navbar-brand" href="#">Projets</a>
+          <a class="navbar-brand" href="<?= BASE_URL; ?>">Projets</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
+            <?php if($isLogged): ?>
               <li class=""><a href="#">Résumé</a></li>
               <li class=""><a href="#">Backlog</a></li>
               <li class=""><a href="#">Sprints</a></li>
               <li class=""><a href="#">Traçabilité</a></li>
               <li class=""><a href="#">Paramètres</a></li>
+            <?php else: ?>
+              <li><a>Connecte toi pour accéder à l'interface</a></li>
+            <?php endif; ?>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-          <?php if ($isLogged): ?>
-            <li class="active"><a href="#">Connexion / Inscription</a></li>
+          <?php if (!$isLogged): ?>
+            <li class="active"><a href="<?= BASE_URL; ?>">Connexion / Inscription</a></li>
           <?php else :?>
-            <li class="active"><a href="#">Connected</a></li>
+            <li class="active"><a href="<?= BASE_URL.'Home/disconnect'; ?>">Connected</a></li>
           <?php endif;?>
           </ul>
         </div>

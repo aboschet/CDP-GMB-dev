@@ -43,7 +43,7 @@ class Table
         return $this->query("DELETE FROM {$this->table} WHERE id = ?", [$id], true);
     }
 
-    public function create($fields){
+    public function insert($fields){
         $sql_parts = [];
         $attributes = [];
         foreach($fields as $k => $v){
@@ -64,17 +64,19 @@ class Table
     }
 
     public function query($statement, $attributes = null, $one = false){
+        $classname =  str_replace('Table', 'Entity', get_class($this));
+        $classname =  str_replace('Models', 'Entities', $classname);
         if($attributes){
             return $this->db->prepare(
                 $statement,
                 $attributes,
-                str_replace('Table', 'Entity', get_class($this)),
+                $classname,
                 $one
             );
         } else {
             return $this->db->query(
                 $statement,
-                str_replace('Table', 'Entity', get_class($this)),
+                $classname,
                 $one
             );
         }

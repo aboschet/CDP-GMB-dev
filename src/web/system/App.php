@@ -21,6 +21,7 @@ class App{
 
     public static function load(){
         session_start();
+        require SYSTEM_PATH . 'Form/FormValidation.php';
         require SYSTEM_PATH . 'Autoloader.php';
         Autoloader::register();
     }

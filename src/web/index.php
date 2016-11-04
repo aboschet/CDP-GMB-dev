@@ -25,8 +25,9 @@ else {
 }
 $controller = '\\app\\Controllers'.str_replace('/', '\\', $controller_path).'Controller';
 $action = isset($global_action[$i_controller_path]) && !(empty($global_action[$i_controller_path])) ? $global_action[$i_controller_path] : App::getConfig('default_function');
-$numberParams = count($global_action)-$i_controller_path;
-$params = ($numberParams === 0) ? null : array_slice($global_action, -$numberParams+1);
+
+$numberParams = count($global_action)-$i_controller_path-1;
+$params = ($numberParams === 0) ? null : array_slice($global_action, -$numberParams);
 
 //Delete the last empty params
 if(!is_null($params) && empty($params[$numberParams-1])) {
@@ -38,11 +39,9 @@ $controllerName = $controllerName[count($controllerName)-1];
 define('CONTROLLER_NAME', $controllerName);
 define('ACTION_NAME', $action);
 $controller = new $controller();
-
 try {
     if(method_exists($controller, $action)) {
         if (is_null($params)) {
-
             $controller->$action();
         } else {
             call_user_func_array(array($controller, $action), $params);
