@@ -1,4 +1,5 @@
 <?php use system\App; ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,22 +12,41 @@
 
     <title><?= App::getInstance()->title; ?></title>
 
+    <link rel="stylesheet" href="<?php echo BASE_URL.'assets/css/style.css';?>" type="text/css" />
     <!-- Bootstrap core CSS -->
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
+  
 
 </head>
 
 <body>
 
-<nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
+ <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" href="../../index.php">Project name</a>
-        </div>
-    </div>
-</nav>
 
-<div class="container">
+          <a class="navbar-brand" href="#">Projets</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+              <li class=""><a href="#">Résumé</a></li>
+              <li class=""><a href="#">Backlog</a></li>
+              <li class=""><a href="#">Sprints</a></li>
+              <li class=""><a href="#">Traçabilité</a></li>
+              <li class=""><a href="#">Paramètres</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+          <?php if ($isLogged): ?>
+            <li class="active"><a href="#">Connexion / Inscription</a></li>
+          <?php else :?>
+            <li class="active"><a href="#">Connected</a></li>
+          <?php endif;?>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+<div class="container" >
 
     <div class="starter-template" style="padding-top: 100px;">
         <?= $content; ?>
@@ -34,6 +54,12 @@
 
 </div><!-- /.container -->
 
-
 </body>
+    <div id="footer">
+      <div class="container">
+        <p class="muted credit">Réalisé par Nabila Mokadmi, Antoine Gamelin et Anthony Boschet.</p>
+      </div>
+    </div>
 </html>
+
+
