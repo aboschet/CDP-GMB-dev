@@ -24,9 +24,9 @@ class DBAuth {
      * @return boolean
      */
     public function login($username, $password){
-        $user = $this->db->prepare('SELECT * FROM users WHERE username = ?', [$username], null, true);
+        $user = $this->db->prepare('SELECT * FROM utilisateur WHERE pseudo = ?', [$username], null, true);
         if($user){
-            if($user->password === sha1($password)){
+            if($user->motDePasse === sha1($password)){
                 $_SESSION['auth'] = $user->id;
                 $_SESSION['userInfo'] = $user;
                 return true;

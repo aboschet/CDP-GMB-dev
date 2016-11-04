@@ -4,6 +4,9 @@ namespace app\Controllers;
 use app\Core\AppController;
 use system\HTML\BootstrapForm;
 use system\FormValidation\FormValidation;
+use system\App;
+use system\Auth\DBAuth;
+
 class HomeController extends AppController{
     
     public function index(){
@@ -18,7 +21,7 @@ class HomeController extends AppController{
     public function register() {
 
       if($this->data['isLogged']) {
-        $this->redirect(dirname($_SERVER['PHP_SELF']).'/Project/all');
+        $this->redirect(BASE_URL.'Project/all');
       }
       
       $rules = FormValidation::is_valid($_POST, array(
@@ -31,7 +34,7 @@ class HomeController extends AppController{
       
       $this->loadModel('Users');
       if($this->Users->userAlreadyRegisted($_POST['email'], $_POST['pseudo'])) {
-        $this->data['error'][] = 'Cet utilisateur est déjà présent dans notre base de données';
+        $this->data['error'][] = 'Cet utilisateur/email est déjà présent dans notre base de données';
       }
       else if($rules === true) {
         
@@ -47,9 +50,28 @@ class HomeController extends AppController{
       
     }
     
-    public function connect($data = null) {
-      $_SESSION['auth'] = 1;
-      $this->redirect(dirname($_SERVER['PHP_SELF']).'/Home');
+    public function connect() {
+      
+      $rules = FormValidation::is_valid($_POST, array(
+        'pseudo' => 'required|alpha_numeric',
+        'motDePasse' => 'required|min_len,3',
+      ));
+      
+      if($rules === true) {
+        $auth = new DBAuth(App::getInstance()->getDb());
+        if($auth->login($_POST['pseudo'], $_POST['motDePasse'])) {
+           $this->redirect(BASE_URL.'Project/all');
+        }
+        else {
+          $this->data['error'][] = 'Les identifiants ne sont pas reconnu';
+        }
+      } 
+      else {
+        $this->data['error'] = $rules;
+      }
+      
+      $this->render('guest_home', $this->data);
+      
     }
 
     public function disconnect(){

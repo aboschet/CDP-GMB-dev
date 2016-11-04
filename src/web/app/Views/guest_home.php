@@ -49,7 +49,7 @@
     <div class="form-group">
       <label class="control-label col-sm-2" >Mot de passe :</label>
       <div class="col-sm-10">
-        <input class="form-control" id="motDePasse" name="motDePasse" placeholder="">
+        <input class="form-control" id="motDePasse" name="motDePasse" type="password" placeholder="">
       </div>
     </div>
 
@@ -70,28 +70,28 @@
 
   <h2  style="text-align:center">Connexion</h2>
 <hr />
-   <form class="form-horizontal">
+   <form class="form-horizontal" action="<?= BASE_URL.'Home/connect'; ?>" method="POST">
 
     <div class="form-group">
       <label class="control-label col-sm-2" >Pseudo :</label>
       <div class="col-sm-10">
-        <input class="form-control" id="pseudo" placeholder="">
+        <input class="form-control" id="pseudo" name="pseudo" placeholder="">
       </div>
     </div>
 
     <div class="form-group">
       <label class="control-label col-sm-2" >Mot de passe :</label>
       <div class="col-sm-10">
-        <input class="form-control" id="motDePasse" placeholder="">
+        <input class="form-control" type="password" id="motDePasse" name="motDePasse" placeholder="">
       </div>
     </div>
 
 
     <div class="form-group">
       <div class="col-sm-offset-6 col-sm-10">
-       <a href="#">
+       <button class="btn btn-primary">
           <span class="glyphicon glyphicon-ok" style="font-size: 2em"></span>
-        </a>
+        </button>
       </div>
     </div>
   </form>

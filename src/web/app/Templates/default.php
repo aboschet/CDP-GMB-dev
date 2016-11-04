@@ -43,16 +43,22 @@
           <?php if (!$isLogged): ?>
             <li class="active"><a href="<?= BASE_URL; ?>">Connexion / Inscription</a></li>
           <?php else :?>
-            <li class="active"><a href="<?= BASE_URL.'Home/disconnect'; ?>">Connected</a></li>
+            <li class="active"><a href="<?= BASE_URL.'Home/disconnect'; ?>">Déconnexion</a></li>
           <?php endif;?>
           </ul>
         </div>
       </div>
     </div>
 
-<div class="container" >
-
-    <div class="starter-template" style="padding-top: 100px;">
+<div class="container" style="padding-top: 80px;">
+    <?php if($isLogged): ?>
+    <div class="row">
+      <div class="col-md-12 alert alert-info">
+        Bonjour <?= ucfirst($userInfo->prenom); ?> <?= strtoupper($userInfo->nom); ?>. 
+      </div>
+    </div>
+    <?php endif; ?>
+    <div class="starter-template">
         <?= $content; ?>
     </div>
 
