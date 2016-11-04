@@ -7,13 +7,12 @@ use system\HTML\BootstrapForm;
 class HomeController extends AppController{
 
     public function index(){
-        $this->data['form'] =  new BootstrapForm($_POST);
-        $this->render('demo', $this->data);
-    }
-
-    public function test($a, $b = 2) {
-        //echo $a;
-        echo $a+$b;
+        if($this->data['isLogged']) {
+          redirect('Project/list');
+        }
+        else {
+          $this->render('guest_home', $this->data);
+        }
     }
 
 }

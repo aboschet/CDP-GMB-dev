@@ -12,6 +12,9 @@ class AppController extends Controller{
 
     public function __construct(){
         $this->viewPath = APP_PATH . 'Views/';
+        $this->data['isLogged'] = isset($_SESSION['auth']);
+        $this->data['userInfo'] = isset($_SESSION['userInfo']) ? $_SESSION['userInfo'] : null;
+
     }
 
     protected function loadModel($model_name){

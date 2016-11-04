@@ -33,7 +33,12 @@ if(!is_null($params) && empty($params[$numberParams-1])) {
     unset($params[--$numberParams]);
 }
 
+$controllerName = explode('\\', $controller);
+$controllerName = $controllerName[count($controllerName)-1];
+define('CONTROLLER_NAME', $controllerName);
+define('ACTION_NAME', $action);
 $controller = new $controller();
+
 try {
     if(method_exists($controller, $action)) {
         if (is_null($params)) {
