@@ -55,10 +55,10 @@
     <div class="row">
        <div class="col-md-6">
         <div class="form-group">
-          <label for="urlGitDev" class="control-label col-sm-2" style ="font-size : 85%" >Date de Fin</label>
+          <label for="dateFin" class="control-label col-sm-2" style ="font-size : 85%" >Date de Fin</label>
           <div class="col-sm-10">
               <div class='input-group date' id='datetimepicker1'>
-                  <input type='text' class="form-control" />
+                  <input type='text' name="dateFin" class="form-control" />
                   <span class="input-group-addon">
                       <span class="glyphicon glyphicon-calendar"></span>
                   </span>
