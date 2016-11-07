@@ -14,6 +14,8 @@ class AppController extends Controller{
         $this->viewPath = APP_PATH . 'Views/';
         $this->data['isLogged'] = isset($_SESSION['auth']);
         $this->data['userInfo'] = isset($_SESSION['userInfo']) ? $_SESSION['userInfo'] : null;
+        $this->data['js'] = array();
+        $this->data['css'] = array();
 
     }
 

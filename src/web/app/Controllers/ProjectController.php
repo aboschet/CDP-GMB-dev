@@ -15,6 +15,18 @@ class ProjectController extends AppController{
     public function index(){
        $this->notFound();
     }
+    
+    public function create(){
+      //When user sending the form
+      if(count($_POST)) {
+        
+      }
+      $this->data['js'] = array(
+        'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js',
+        BASE_URL.'assets/js/project_create.js'
+      );
+      $this->render('project/create', $this->data);
+    }
 
     public function all() {
       $this->render('project/list', $this->data);

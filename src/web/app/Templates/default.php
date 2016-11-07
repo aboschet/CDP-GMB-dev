@@ -12,10 +12,12 @@
 
     <title><?= App::getInstance()->title; ?></title>
 
-    <link rel="stylesheet" href="<?php echo BASE_URL.'assets/css/style.css';?>" type="text/css" />
     <!-- Bootstrap core CSS -->
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
-  
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="<?php echo BASE_URL.'assets/css/style.css';?>" type="text/css" />
+    <?php foreach($css as $fileCss) { ?>
+      <script src="<?= $fileCss; ?>"></script>
+    <?php } ?>
 
 </head>
 
@@ -64,12 +66,19 @@
 
 </div><!-- /.container -->
 
-</body>
     <div id="footer">
       <div class="container">
         <p class="muted credit">Réalisé par Nabila Mokadmi, Antoine Gamelin et Anthony Boschet.</p>
       </div>
     </div>
+    
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <?php foreach($js as $fileJs) { ?>
+      <script src="<?= $fileJs; ?>"></script>
+    <?php } ?>
+  </body>
 </html>
 
 
