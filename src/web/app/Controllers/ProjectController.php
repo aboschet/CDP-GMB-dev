@@ -30,12 +30,14 @@ class ProjectController extends AppController{
         ));
         if($rules === true) {          
           $_POST['dateFin'] = date('Y-m-d', strtotime($_POST['dateFin']));
-          $_POST['idProprietaire'] = $this->data['auth'];
-          $this->Projects->insert($_POST);
+          $_POST['idProprietaire'] =  $this->data['userInfo']->id;
+          $idInsert = $this->Projects->insert($_POST);
+          $this->redirect(BASE_URL.'Project/info/'.$idInsert);
         }
         else {
            $this->data['error'] = $rules;
         }
+        
       }
       $this->data['js'] = array(
         'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js',
@@ -43,7 +45,11 @@ class ProjectController extends AppController{
       );
       $this->render('project/create', $this->data);
     }
-
+    
+    public function info($id) {
+      $this->data['message'] = 'Not Implemented Yet';
+      $this->render('project/info', $this->data);
+    }
     public function all() {
       $this->render('project/list', $this->data);
     }

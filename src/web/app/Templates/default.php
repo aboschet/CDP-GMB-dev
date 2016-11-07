@@ -52,7 +52,7 @@
       </div>
     </div>
 
-<div class="container" style="padding-top: 80px;">
+<div class="container" style="padding-top: 80px; padding-bottom:50px;">
     <?php if($isLogged): ?>
     <div class="row">
       <div class="col-md-12 alert alert-info">
