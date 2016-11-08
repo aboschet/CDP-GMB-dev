@@ -33,8 +33,9 @@ class Autoloader {
                 $class = str_replace('\\', '/', $class);
                 if (!file_exists(APP_PATH . '' . $class .'.php' ))
                     throw new \Exception ('notFound');
-                else
+                else {
                     require APP_PATH . '' . $class . '.php';
+                }
             }
         } catch(\Exception $e) {
             require_once __DIR__ .'/Controller/Controller.php';

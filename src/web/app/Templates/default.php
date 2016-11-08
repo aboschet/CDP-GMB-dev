@@ -16,7 +16,7 @@
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="<?php echo BASE_URL.'assets/css/style.css';?>" type="text/css" />
     <?php foreach($css as $fileCss) { ?>
-      <script src="<?= $fileCss; ?>"></script>
+      <link rel="stylesheet" href="<?= $fileCss; ?>" type="text/css" />
     <?php } ?>
 
 </head>

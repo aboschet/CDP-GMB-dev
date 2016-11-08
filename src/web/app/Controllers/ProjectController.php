@@ -51,6 +51,13 @@ class ProjectController extends AppController{
       $this->render('project/info', $this->data);
     }
     public function all() {
+      
+      $this->data['projects'] = $this->Projects->listProjects($this->data['userInfo']->id);
+      $this->data['css'][] = 'https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css';
+      $this->data['js'] =  array(
+        'https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js',
+        BASE_URL.'assets/js/project_list.js'
+      );
       $this->render('project/list', $this->data);
     }
 }

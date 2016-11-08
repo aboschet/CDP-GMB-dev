@@ -2,7 +2,6 @@
 namespace system\Database;
 
 use \PDO;
-
 class MysqlDatabase extends Database{
 
     private $db_name;
@@ -37,10 +36,12 @@ class MysqlDatabase extends Database{
         ) {
             return $req;
         }
+
+
         if($class_name === null){
             $req->setFetchMode(PDO::FETCH_OBJ);
         } else {
-            $req->setFetchMode(PDO::FETCH_CLASS, $class_name);
+            $req->setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, $class_name);
         }
         if($one) {
             $datas = $req->fetch();
@@ -70,6 +71,7 @@ class MysqlDatabase extends Database{
         } else {
             $req->setFetchMode(PDO::FETCH_CLASS, $class_name);
         }
+        
         if($one) {
             $datas = $req->fetch();
         } else {
