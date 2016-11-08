@@ -10,7 +10,7 @@ class HomeController extends AppController{
     
     public function index(){
         if($this->data['isLogged']) {
-          $this->redirect(dirname($_SERVER['PHP_SELF']).'/Project/all');
+          $this->redirect(BASE_URL.'Project/all');
         }
         else {
           $this->render('guest_home', $this->data);
