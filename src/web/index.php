@@ -10,7 +10,7 @@ use system\App;
 
 App::load();
 
-
+include(APP_PATH.'Helpers/Global.php');
 
 $global_action = isset($_GET['p']) ? explode('/', $_GET['p']) : null;
 $controller_path = '';
