@@ -84,6 +84,7 @@ class ProjectController extends AppController{
     
     
     public function all() {
+      unset($_SESSION['project_id']);
       $this->data['projects'] = $this->Projects->listProjects($this->data['userInfo']->id);
       $this->data['css'][] = 'https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css';
       $this->data['js'] =  array(
