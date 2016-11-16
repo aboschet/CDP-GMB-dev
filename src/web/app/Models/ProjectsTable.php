@@ -14,8 +14,9 @@ class ProjectsTable extends Table{
           FROM '.$this->table.' 
           INNER JOIN '.self::TABLE_USER.' ON
             '.self::TABLE_USER.'.id = '.$this->table.'.idProprietaire
-          WHERE idProprietaire = ? OR estPublic = 1',
-        [$userId]);
+          LEFT JOIN '.self::TABLE_MEMBERS_PROJECT.' ON '.$this->table.'.id = idProjet
+          WHERE idProprietaire = ? OR idDeveloppeur = ? OR estPublic = 1',
+        [$userId,$userId]);
       return $result;
       
     }
@@ -45,7 +46,7 @@ class ProjectsTable extends Table{
       return ($result !== false);
     }
     
-    public function isOwner($projet_id, $user_id = null){
+    public function isOwner($project_id, $user_id = null){
       $user_id = is_null($user_id) ? $_SESSION['auth'] : $user_id;
       $sql = 'SELECT id FROM '.$this->table.' WHERE id = ? AND idProprietaire = ?';
       $result = $this->query($sql, [$project_id,$user_id], true);
