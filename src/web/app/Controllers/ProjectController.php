@@ -53,6 +53,8 @@ class ProjectController extends AppController{
         $this->redirect(BASE_URL.'Project/all');
       }
       
+      $_SESSION['project_id'] = $id;
+      
       if(!is_null($action)) {
        
         if($this->Projects->isOwner($id)) {
@@ -74,6 +76,10 @@ class ProjectController extends AppController{
       
       $this->data['projectInfo'] = $project[0];
       $this->render('project/info', $this->data);
+    }
+    
+    public function parameters() {
+      $this->render('project/parameters', $this->data);
     }
     
     
