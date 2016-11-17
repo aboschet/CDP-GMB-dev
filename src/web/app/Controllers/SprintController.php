@@ -11,10 +11,13 @@ class SprintController extends AppController{
         if(!$this->data['isLogged']) {
           $this->redirect(BASE_URL.'Home');
         }
-        $this->loadModel('Projects');        
+            
         if(!isset($_SESSION['project_id'])) {
           $this->redirect(BASE_URL.'Project/all');
         }
+        $this->loadModel('Projects');    
+        $this->loadModel('Sprints');    
+        
     }
     public function index(){
        $this->notFound();
@@ -29,6 +32,10 @@ class SprintController extends AppController{
       }
       
       $this->data['projectInfo'] = $project[0];
+      $this->data['js'] = array(
+        'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js',
+        BASE_URL.'assets/js/sprint_create.js'
+      );
       $this->render('sprint/info', $this->data);
     }
         
