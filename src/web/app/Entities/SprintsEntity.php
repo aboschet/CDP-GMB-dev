@@ -12,4 +12,8 @@ class SprintsEntity extends Entity{
   public function getDateFinSprint() {
     return date('d/m/Y' , strtotime($this->dateFin));
   }
+  
+  public function getKanban() {
+    return "<a href=".BASE_URL.'Sprint/kanban/'.$this->id.">Kanban</a>";
+  }
 }

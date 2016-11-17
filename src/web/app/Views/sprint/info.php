@@ -14,6 +14,7 @@
  
 
   <div class="container">
+    <?php if($isOwner) { ?>
     <div class="row">
       <div class="pull-right">
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createSprint">
@@ -22,6 +23,7 @@
       </div>
     </div>
     <hr>
+    <?php } ?>
     <div class="row">
       <div class="col-md-12">
         <div class="row">
@@ -51,7 +53,9 @@
           <th>Date de début</th>
           <th>Date de fin</th>
           <th>Kanban</th>
+          <?php if($isOwner) { ?>
           <th>Action</th>
+          <?php } ?>
         </thead>
         <?php 
         $i = 1;
@@ -61,7 +65,9 @@
             <td><?= $sprint->dateDebutSprint; ?></td>
             <td><?= $sprint->dateFinSprint; ?></td>
             <td><?= $sprint->kanban; ?></td>
-            <td><a href="<?= BASE_URL.'Sprint/delete/'.$sprint->id; ?>" class="btn btn-danger">Supprimer</a></td>
+            <?php if($isOwner) { ?>
+            <td><a href="<?= BASE_URL.'Sprint/delete/'.$sprint->id; ?>">Supprimer</a></td>
+            <?php } ?>
           </tr>
         <?php $i++; } ?>
       </table>
@@ -83,7 +89,7 @@
             <label for="dateDebut" class="control-label col-sm-2" style ="font-size : 85%" >Date de debut</label>
             <div class="col-sm-10">
                 <div class='input-group date' id='datetimepicker1'>
-                    <input type='text' name="dateDebut" class="form-control" />
+                    <input type='text' name="dateDebut" class="form-control" value="11/01/2016"/>
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
@@ -96,7 +102,7 @@
             <label for="dateFin" class="control-label col-sm-2" style ="font-size : 85%" >Date de Fin</label>
             <div class="col-sm-10">
                 <div class='input-group date' id='datetimepicker2'>
-                    <input type='text' name="dateFin" class="form-control" />
+                    <input type='text' name="dateFin" class="form-control" value="11/03/2016"/>
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
