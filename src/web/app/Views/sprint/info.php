@@ -12,6 +12,42 @@
   </div>
  <?php endif; ?>
  
- <div class="col-md-12 alert alert-success">
-   Not yet implemented
+  <div>
+  
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="project">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-2">
+            <b> Nom du sprint: </b>
+          </div>
+          <div class="col-md-10">
+            <?= "Sprint" .$sprintInfo->id; ?>
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="col-md-2">
+            <b>Date de debut: </b>
+          </div>
+          <div class="col-md-10">
+            <?= $sprintInfo->dateDebutSprint; ?>
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="col-md-2">
+            <b>Date de fin: </b>
+          </div>
+          <div class="col-md-10">
+            <?= $sprintInfo->dateFinSprint; ?>
+          </div>
+        </div>      
+      </div>
+    </div>
+    
+    
   </div>
+
+</div>
