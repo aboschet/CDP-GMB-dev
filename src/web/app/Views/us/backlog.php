@@ -14,6 +14,17 @@
  
  <div class="container">
     <h4 style= "text-align: center;"> User Stories </h4>
+    
+    <?php if($isOwner) { ?>
+    <div class="row">
+      <div class="pull-right">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createUserStory">
+          Créer une US
+        </button>
+      </div>
+    </div>
+    <hr>
+    <?php } ?>
     <div class="col-md-12">
       <table class="table table-hover">
         <thead>
@@ -22,7 +33,9 @@
           <th>Etat</th>
           <th>Chiffrage</th>
           <th>Priorite</th>
-          <th>Action</th>
+          <?php if($isOwner) { ?>
+            <th>Action</th>
+          <?php } ?>
         </thead>
         <?php 
         $i = 1;
@@ -33,7 +46,9 @@
             <td><?= $userstory->etat; ?></td>
             <td><?= $userstory->chiffrage; ?></td>
             <td><?= $userstory->priorite; ?></td>
-            <td><a href="<?= BASE_URL.'UserStory/delete/'.$userstory->id; ?>" class="btn btn-danger">Supprimer</a></td>
+            <?php if($isOwner) { ?>
+              <td><a href="<?= BASE_URL.'UserStory/delete/'.$userstory->id; ?>" class="btn btn-danger">Supprimer</a></td>
+            <?php } ?>
           </tr>
         <?php $i++; } ?>
       </table>
@@ -59,16 +74,7 @@
                 </div>
 			</div>
 		</div>
-		
-		<div class="col-md-12">
-			<div class="form-group">
-				<label for="etat" class="control-label col-sm-2" style ="font-size : 85%" >Etat</label>
-				<div class="col-sm-10">
-					<input class="form-control" id="etat" name="etat" value="<?php if(isset($_POST['etat'])) { echo $_POST['etat']; } ?>">
-				</div>
-			</div>
-		</div>
-		
+				
 		
 		<div class="col-md-12">
 			<div class="form-group">
