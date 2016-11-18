@@ -89,7 +89,7 @@
             <label for="dateDebut" class="control-label col-sm-2" style ="font-size : 85%" >Date de debut</label>
             <div class="col-sm-10">
                 <div class='input-group date' id='datetimepicker1'>
-                    <input type='text' name="dateDebut" class="form-control" value="11/01/2016"/>
+                    <input type='text' name="dateDebut" class="form-control" value=""/>
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
@@ -102,7 +102,7 @@
             <label for="dateFin" class="control-label col-sm-2" style ="font-size : 85%" >Date de Fin</label>
             <div class="col-sm-10">
                 <div class='input-group date' id='datetimepicker2'>
-                    <input type='text' name="dateFin" class="form-control" value="11/03/2016"/>
+                    <input type='text' name="dateFin" class="form-control" value=""/>
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
