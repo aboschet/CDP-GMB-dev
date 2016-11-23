@@ -10,9 +10,9 @@
             }
             ?>
         </select>
-        <div class="pull-right">
+        
             <button class="btn btn-primary">Ajouter</button>
-        </div>
+        
       <?php }
        ?>
     </div>
