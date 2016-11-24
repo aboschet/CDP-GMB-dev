@@ -51,7 +51,12 @@
               $number = count($task["data"])+1;
               $number = $number == 1 ? 2 : $number;
             ?>
-            <td rowspan="<?= $number; ?>"><?= $task["name"]; ?></td>
+            <td rowspan="<?= $number; ?>">
+              <?= $task["name"]; ?><br />
+              <?php if(!is_null($task["id"])) { ?>
+                <a href="<?= BASE_URL.'Kanban/deleteStory/'.$sprintId.'/'.$task['id']; ?>" class="btn btn-danger">x</a>
+              <?php } ?>
+            </td>
             <?php 
             $i = 0;
             foreach($task["data"] as $t) { 
@@ -59,35 +64,51 @@
               $i++;
               switch($t->etat) {
                 case 'nonFait' :
-                  echo "<td>".$t->nom."</td>
+                  echo "<td>"
+                          .$t->nom.
+                        "
+                          <a href='".BASE_URL.'Kanban/nextTask/enCours/'.$sprintId.'/'.$t->id."' class='btn btn-xs btn-success'>-></a>
+                        </td>
                         <td></td>
                         <td></td>
                         <td></td>";
                   break;
                 case 'enCours' :
                   echo "<td></td>
-                        <td>".$t->nom."</td>
+                        <td>"
+                          .$t->nom.
+                        "
+                          <a href='".BASE_URL.'Kanban/nextTask/test/'.$sprintId.'/'.$t->id."' class='btn btn-xs btn-success'>-></a>
+                        </td>
                         <td></td>
                         <td></td>";
                   break;
                 case 'test' :
                   echo "<td></td>
                         <td></td>
-                        <td>".$t->nom."</td>
+                        <td>"
+                          .$t->nom.
+                        "
+                          <a href='".BASE_URL.'Kanban/nextTask/fait/'.$sprintId.'/'.$t->id."' class='btn btn-xs btn-success'>-></a>
+                        </td>
                         <td></td>";
                   break;
                 case 'fait' :
                   echo "<td></td>
                         <td></td>
                         <td></td>
-                        <td>".$t->nom."</td>";
+                        <td>"
+                          .$t->nom.
+                        "
+                          <a href='".BASE_URL.'Kanban/nextTask/nonFait/'.$sprintId.'/'.$t->id."' class='btn btn-xs btn-danger'>R</a>
+                        </td>";
                   break;
               }
              
             ?>
             
             <?php if($isOwner || $t->idDeveloppeur == $_SESSION['auth']) { ?>
-            <td><a href="<?= BASE_URL.'Kanban/delete/'.$t->id; ?>">Supprimer</a></td>
+            <td><a href="<?= BASE_URL.'Kanban/deleteTask/'.$sprintId.'/'.$t->id; ?>">Supprimer</a></td>
             <?php } ?> 
             </tr>
            <?php } ?>

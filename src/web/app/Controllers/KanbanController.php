@@ -62,6 +62,48 @@ class KanbanController extends AppController{
        $this->redirect(BASE_URL.'Kanban/info/'.$_POST['idSprint']);
     }
     
+    public function deletetTask($idSprint, $idTask) {
+       $id = $_SESSION['project_id'];
+       $project = $this->Projects->getInfoProject($id);
+       if(!$project || !$this->Projects->haveAccess($id, $_SESSION['auth'])) {
+        unset($_SESSION['project_id']);
+        $this->redirect(BASE_URL.'Project/all');
+       }
+       $_SESSION["message"] = "La tâche a bien été supprimé";
+       $this->Tasks->delete(array('id' => $idTask));
+       
+        $this->redirect(BASE_URL.'Kanban/info/'.$idSprint);
+    }
+    
+    
+    public function deleteStory($idSprint, $idStory) {
+       $id = $_SESSION['project_id'];
+       $project = $this->Projects->getInfoProject($id);
+       if(!$project || !$this->Projects->haveAccess($id, $_SESSION['auth'])) {
+        unset($_SESSION['project_id']);
+        $this->redirect(BASE_URL.'Project/all');
+       }
+       $_SESSION["message"] = "L'US a été supprimé de ce sprint";
+       $this->loadModel('UserStories'); 
+       $this->UserStories->update(array('id' => $idStory), array('etat' => 0, 'idSprint' => NULL));
+       
+       
+       $this->redirect(BASE_URL.'Kanban/info/'.$idSprint);
+    }
+    
+    public function nextTask($etat, $idSprint, $idStory) {
+      $id = $_SESSION['project_id'];
+       $project = $this->Projects->getInfoProject($id);
+       if(!$project || !$this->Projects->haveAccess($id, $_SESSION['auth'])) {
+        unset($_SESSION['project_id']);
+        $this->redirect(BASE_URL.'Project/all');
+       }
+       $_SESSION["message"] = "La tâche vient de changé d'état";
+       $this->Tasks->update(array('id' => $idStory), array('etat' => $etat));
+       
+       $this->redirect(BASE_URL.'Kanban/info/'.$idSprint);
+    }
+    
     public function info($idSprint) {
       $id = $_SESSION['project_id'];
       $project = $this->Projects->getInfoProject($id);
