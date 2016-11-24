@@ -19,7 +19,7 @@
       <div class="pull-right">
         <form action="<?= BASE_URL.'Kanban/addStory'; ?>" method="POST">
           <input type="hidden" name="idSprint" value="<?= $sprintId; ?>">
-          <select name="idUserStory">
+          <select name="id">
             <?php foreach($userstories as $us) { ?>
                 <option value="<?= $us->id; ?>"><?= $us->nom; ?></option>
               <?php
@@ -34,7 +34,7 @@
     <?php } ?>
     
     <div class="col-md-12">
-      <table class="table table-hover table-striped">
+      <table class="table table-bordered table-striped">
         <thead>
           <th>US</th>
           <th>TODO</th>
@@ -44,12 +44,17 @@
           <th>Action</th>
         </thead>
         <tbody>
+          
+        <?php foreach($tasks as $task) { ?>
           <tr>
-        <?php foreach($tasks as $us => $task) { ?>
-            <td rowspan="<?= count($task)+2; ?>"><?php echo $us; ?></td>
+            <?php 
+              $number = count($task["data"])+1;
+              $number = $number == 1 ? 2 : $number;
+            ?>
+            <td rowspan="<?= $number; ?>"><?= $task["name"]; ?></td>
             <?php 
             $i = 0;
-            foreach($task as $t) { 
+            foreach($task["data"] as $t) { 
               if($i != 0) { echo "<tr>"; }
               $i++;
               switch($t->etat) {
@@ -86,15 +91,20 @@
             <?php } ?> 
             </tr>
            <?php } ?>
+           </tr>
             <tr>
               <td>
                 <form action="<?= BASE_URL.'Kanban/addTask'; ?>" method="POST">
-                  <input type="hidden" name="idUserStory" value="<?= $us; ?>">
+                  <input type="hidden" name="idUserStory" value="<?= $task["id"]; ?>">
                   <input type="hidden" name="idSprint" value="<?= $sprintId; ?>">
                   <input type="text" name="nom" placeholder="Nom de la tâche">
                   <button class="btn">Ajouter</button>
                 </form>
               </td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
             </tr>
             
         <?php } ?>

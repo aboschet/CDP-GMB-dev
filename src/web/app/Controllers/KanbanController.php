@@ -33,12 +33,35 @@ class KanbanController extends AppController{
        }
        if($this->Projects->isOwner($id)) {
         $this->loadModel('UserStories'); 
-         $this->UserStories->update();
+        $_SESSION["message"] = "L'US à bien été ajouté au Sprint";
+        $this->UserStories->update(array('id' => $_POST['id']), array('etat' => 1, 'idSprint' => $_POST['idSprint']));
        }
       
        $this->redirect(BASE_URL.'Kanban/info/'.$_POST['idSprint']);
       
     }
+    
+    public function addTask() {
+       $id = $_SESSION['project_id'];
+       $project = $this->Projects->getInfoProject($id);
+       if(!$project || !$this->Projects->haveAccess($id, $_SESSION['auth'])) {
+        unset($_SESSION['project_id']);
+        $this->redirect(BASE_URL.'Project/all');
+       }
+       
+       if(!empty($_POST['nom'])) {
+         $_SESSION["message"] = "La tâche a bien été ajoutée";
+         $_POST['idDeveloppeur'] = $_SESSION['auth'];
+         $_POST['etat'] = 'nonFait';
+         if(empty($_POST['idUserStory'])) {
+            unset($_POST['idUserStory']);
+         }
+         $this->Tasks->insert($_POST);
+       }
+       
+       $this->redirect(BASE_URL.'Kanban/info/'.$_POST['idSprint']);
+    }
+    
     public function info($idSprint) {
       $id = $_SESSION['project_id'];
       $project = $this->Projects->getInfoProject($id);
@@ -63,9 +86,9 @@ class KanbanController extends AppController{
       $this->loadModel('UserStories');      
       $this->data['userstories'] = $this->UserStories->getNotAffectedUS($id);
       $USofSprint = $this->UserStories->getUsOfSprint($idSprint);
-      $tasks["ALL"] = $this->Tasks->getTasksOfAll($idSprint);
+      $tasks[] = array("name" => "ALL", "id" => NULL, "data" => $this->Tasks->getTasksOfAll($idSprint));
       foreach($USofSprint as $idUS) {
-        $tasks[$idUS->nom] = $this->Tasks->getTasksOfUS($idSprint, $idUS->id);
+        $tasks[] = array("name" => $idUS->nom, "id" => $idUS->id, "data" => $this->Tasks->getTasksOfUS($idSprint, $idUS->id));
       }
       $this->data['tasks'] = $tasks;
       
