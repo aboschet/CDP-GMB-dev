@@ -86,7 +86,7 @@ class UserStoryController extends AppController{
 
     public function insertNumCommit ($idUs) {
      // $this->UserStories->insert(array('idProjet' => 2, 'nom' => "bonjour" , 'chiffrage' => 1, 'priorite' => 3));
-      $this->UserStories->update(array('id'=>1),array('numCommit' => "bonourdjkhf"));        
+      $this->UserStories->update(array('id'=>$idUs),array('numCommit' => "dfkjsdfjsdfsonourdjkhf"));        
      /* $id = $_SESSION['project_id'];
 
       $rules = FormValidation::is_valid($_POST, array(
@@ -101,8 +101,8 @@ class UserStoryController extends AppController{
       }
        else {
         $_SESSION['error'] = $rules;
-      }
-     //$this->redirect(BASE_URL.'UserStory/traceability');*/
+      }*/
+     $this->redirect(BASE_URL.'UserStory/traceability');
     }
         
     
