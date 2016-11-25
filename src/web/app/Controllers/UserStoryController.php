@@ -26,6 +26,7 @@ class UserStoryController extends AppController{
       }
       $rules = FormValidation::is_valid($_POST, array(
           'nom' => 'required',
+          'description' => 'required',
           'chiffrage' => 'required',
           'priorite' => 'required'
       ));
