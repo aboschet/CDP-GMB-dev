@@ -62,7 +62,7 @@ class KanbanController extends AppController{
        $this->redirect(BASE_URL.'Kanban/info/'.$_POST['idSprint']);
     }
     
-    public function deletetTask($idSprint, $idTask) {
+    public function deleteTask($idSprint, $idTask) {
        $id = $_SESSION['project_id'];
        $project = $this->Projects->getInfoProject($id);
        if(!$project || !$this->Projects->haveAccess($id, $_SESSION['auth'])) {
