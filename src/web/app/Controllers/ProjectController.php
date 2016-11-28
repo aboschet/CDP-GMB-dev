@@ -82,6 +82,56 @@ class ProjectController extends AppController{
       $this->render('project/parameters', $this->data);
     }
     
+    public function deleteTest($idTest) {
+      $id = $_SESSION['project_id'];
+      $project = $this->Projects->getInfoProject($id);
+      if(!$project || !$this->Projects->haveAccess($id, $_SESSION['auth'])) {
+        unset($_SESSION['project_id']);
+        $this->redirect(BASE_URL.'Project/all');
+      }
+      $this->loadModel('Tests');
+      $info = $this->Tests->find($idTest);
+      unlink(ROOT_PATH.'/'.$info->lien);
+      $this->Tests->delete(array('id' => $idTest));
+      
+      $_SESSION['message'] = 'Test delete';
+      $this->redirect(BASE_URL.'Project/tests');
+    }
+    
+  public function tests() {
+     $id = $_SESSION['project_id'];
+     $project = $this->Projects->getInfoProject($id);
+     if(!$project || !$this->Projects->haveAccess($id, $_SESSION['auth'])) {
+      unset($_SESSION['project_id']);
+      $this->redirect(BASE_URL.'Project/all');
+     }
+     
+    $this->loadModel('Tests');
+    $this->loadModel('UserStories');
+    if(count($_POST)) {
+      $uploaddir = ROOT_PATH.'/assets/tests/';
+      $urlFile = uniqid(). basename($_FILES['userfile']['name']);
+      $uploadfile = $uploaddir.$urlFile;
+      if (move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)) {
+        $data = array('idProjet' => $id, 'idUS' => $_POST['idUS'], 'lien' => 'assets/tests/'.$urlFile);
+        $this->Tests->insert($data);
+        $this->data['message'] = 'Ajout effectué';
+      }
+      else {
+       $this->data['error'] = 'Une erreur est survenue lors de l\'upload'; 
+      }
+    }
+    
+    if(isset($_SESSION['message'])) {
+      $this->data['message'] = $_SESSION['message'];
+      unset($_SESSION['message']);
+    }
+     
+   $this->data['userstories'] = $this->UserStories->getUS($id);
+   $this->data['tests'] = $this->Tests->getTests($id);
+   
+   $this->render('project/tests', $this->data);
+  }
     
     public function all() {
       unset($_SESSION['project_id']);

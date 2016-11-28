@@ -40,6 +40,7 @@
                 <li class=""><a href="<?= BASE_URL.'Project/info/'.$_SESSION['project_id']; ?>">Résumé</a></li>
                 <li class=""><a href="<?= BASE_URL.'UserStory'; ?>">Backlog</a></li>
                 <li class=""><a href="<?= BASE_URL.'Sprint/info'; ?>">Sprints</a></li>
+                <li class=""><a href="<?= BASE_URL.'Project/tests'; ?>">Test E2E</a></li>
                 <li class=""><a href="<?= BASE_URL.'UserStory/traceability'; ?>">Traçabilité</a></li>
                 <li class=""><a href="<?= BASE_URL.'Project/parameters'; ?>">Paramètres</a></li>
               <?php endif;?>
