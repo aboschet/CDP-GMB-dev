@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Jeu 24 Novembre 2016 à 21:59
+-- Généré le :  Lun 28 Novembre 2016 à 20:39
 -- Version du serveur :  5.5.53-0+deb8u1
 -- Version de PHP :  5.6.27-0+deb8u1
 
@@ -84,6 +84,21 @@ CREATE TABLE IF NOT EXISTS `tache` (
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `tests`
+--
+
+DROP TABLE IF EXISTS `tests`;
+CREATE TABLE IF NOT EXISTS `tests` (
+`id` int(11) NOT NULL,
+  `lien` varchar(255) NOT NULL,
+  `upload` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `idProjet` int(11) NOT NULL,
+  `idUS` int(11) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `userstory`
 --
 
@@ -97,7 +112,7 @@ CREATE TABLE IF NOT EXISTS `userstory` (
   `priorite` int(11) NOT NULL,
   `idProjet` int(11) NOT NULL,
   `idSprint` int(11) DEFAULT NULL,
-  `numCommit` int(11) NOT NULL
+  `numCommit` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -145,6 +160,12 @@ ALTER TABLE `tache`
  ADD PRIMARY KEY (`id`), ADD KEY `idUserStory` (`idUserStory`), ADD KEY `idDeveloppeur` (`idDeveloppeur`), ADD KEY `idSprint` (`idSprint`);
 
 --
+-- Index pour la table `tests`
+--
+ALTER TABLE `tests`
+ ADD PRIMARY KEY (`id`), ADD KEY `idProjet` (`idProjet`), ADD KEY `idUS` (`idUS`);
+
+--
 -- Index pour la table `userstory`
 --
 ALTER TABLE `userstory`
@@ -180,6 +201,11 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 ALTER TABLE `tache`
 MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
+--
+-- AUTO_INCREMENT pour la table `tests`
+--
+ALTER TABLE `tests`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT pour la table `userstory`
 --
@@ -217,9 +243,16 @@ ADD CONSTRAINT `sprint_ibfk_1` FOREIGN KEY (`idProjet`) REFERENCES `projet` (`id
 -- Contraintes pour la table `tache`
 --
 ALTER TABLE `tache`
-ADD CONSTRAINT `tache_ibfk_3` FOREIGN KEY (`idSprint`) REFERENCES `sprint` (`id`),
 ADD CONSTRAINT `tache_ibfk_1` FOREIGN KEY (`idDeveloppeur`) REFERENCES `utilisateur` (`id`),
-ADD CONSTRAINT `tache_ibfk_2` FOREIGN KEY (`idUserStory`) REFERENCES `userstory` (`id`);
+ADD CONSTRAINT `tache_ibfk_2` FOREIGN KEY (`idUserStory`) REFERENCES `userstory` (`id`),
+ADD CONSTRAINT `tache_ibfk_3` FOREIGN KEY (`idSprint`) REFERENCES `sprint` (`id`);
+
+--
+-- Contraintes pour la table `tests`
+--
+ALTER TABLE `tests`
+ADD CONSTRAINT `tests_ibfk_1` FOREIGN KEY (`idUS`) REFERENCES `userstory` (`id`),
+ADD CONSTRAINT `fk_tests_1` FOREIGN KEY (`idProjet`) REFERENCES `projet` (`id`);
 
 --
 -- Contraintes pour la table `userstory`
