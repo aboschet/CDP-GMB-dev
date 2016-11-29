@@ -85,24 +85,30 @@ class UserStoryController extends AppController{
     }
 
     public function insertNumCommit ($idUs) {
-     // $this->UserStories->insert(array('idProjet' => 2, 'nom' => "bonjour" , 'chiffrage' => 1, 'priorite' => 3));
-      $this->UserStories->update(array('id'=>$idUs),array('numCommit' => "dfkjsdfjsdfsonourdjkhf"));        
-     /* $id = $_SESSION['project_id'];
+     $id = $_SESSION['project_id'];
 
-      $rules = FormValidation::is_valid($_POST, array(
-        'numCommit' => 'required'
-      ));
-        
+     if ($this->Projects->isOwner($id)) {
+        $rules = FormValidation::is_valid($_POST, array(
+            'numCommit' => 'required'
+        ));
 
-      if($rules === true) { 
-        $_POST['idProjet'] = $id;
-        //$this->UserStories->update(array('id'=>1), array('numCommit' =>3));
+        if($rules === true) { 
+          $this->UserStories->update(array('id'=>$idUs),$_POST); 
+        }
 
-      }
-       else {
-        $_SESSION['error'] = $rules;
-      }*/
+        else {
+          $_SESSION['error'] = $rules;
+        }
+     }
      $this->redirect(BASE_URL.'UserStory/traceability');
+    }
+
+    public function deleteNumCommit ($idUs) {
+       $id = $_SESSION['project_id'];
+      if($this->Projects->isOwner($id)) {
+        $this->UserStories->update(array('id'=>$idUs), array('numCommit'=> NULL));
+      }
+      $this->redirect(BASE_URL.'UserStory/traceability');
     }
         
     

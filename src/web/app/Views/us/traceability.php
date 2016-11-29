@@ -5,6 +5,7 @@
       <tr>
         <th>User Story</th>
         <th>Numéro du commit</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -16,31 +17,21 @@
 
             <?php if ($userstory->numCommit == NULL) { ?>
               <td>  <form class="form-inline" action="<?= BASE_URL.'UserStory/insertNumCommit/'.$userstory->id; ?>" method="POST">
-                    <input class="form-control" id="numCommit" placeholder="Numéro du commit">
+                    <input class="form-control" id="numCommit" name="numCommit" placeholder="Numéro du commit">
                     <button type="submit" class="btn btn-default">Valider</button>
                    </form>
             </td>
+            <td></td>
             <?php } else { ?>
                       <td><?= $userstory->numCommit ?></td>
+                      <td>
+                        <a href="<?= BASE_URL.'UserStory/deleteNumCommit/'.$userstory->id; ?>" class="icon">
+                        <span class="glyphicon glyphicon-remove"></span>
+                        </a>
+                      </td>
             <?php } ?>
           </tr>
         <?php } ?>
-
-      <tr>
-        <td>John</td>
-        <td>Doe</td>
-      </tr>
-
-      <tr>
-        <td>Mary</td>
-        <td>Moe</td>
-      </tr>
-
-      <tr>
-        <td>July</td>
-        <td>Dooley</td>
-      </tr>
-
     </tbody>
   </table>
 </div>
