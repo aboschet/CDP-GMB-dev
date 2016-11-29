@@ -79,6 +79,14 @@ class ProjectController extends AppController{
     }
     
     public function parameters() {
+      $idProject = $_SESSION['project_id'];
+      $project = $this->Projects->getInfoProject($idProject);
+
+      $this->data['js'] = array(
+        'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js',
+        BASE_URL.'assets/js/project_create.js'
+      );
+      $this->data['projectInfo'] = $project[0];
       $this->render('project/parameters', $this->data);
     }
     
@@ -143,4 +151,27 @@ class ProjectController extends AppController{
       );
       $this->render('project/list', $this->data);
     }
+
+   
+
+    public function setParameterProject ()
+    {
+      $idProject = $_SESSION['project_id'];
+      if ($this->Projects->isOwner($idProject))
+      {
+        $rules = FormValidation::is_valid($_POST, array(
+            'nom' => 'required|max_len,100|min_len,3',
+            'description' => 'required|min_len,5',
+            'estPublic' => 'required',
+            'urlGitDev' => 'required',
+            'urlGitDemo' => 'required'/*,
+            'dateFin' => 'required'*/
+          ));
+        if ($rules == true) {
+            $this->Projects->update(array('id'=>$idProject), $_POST);
+        }
+      }
+
+      $this->redirect(BASE_URL.'Project/info/'.$idProject);
+    } 
 }
