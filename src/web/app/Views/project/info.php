@@ -96,6 +96,11 @@
         
       </div>
     </div>
+    
+    <div role="tabpanel" class="tab-pane" id="velocite">
+      <?php include(APP_PATH.'Views/project/velocite.php'); ?>
+    </div>
+    
   </div>
 
 </div>

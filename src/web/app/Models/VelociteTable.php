@@ -16,6 +16,16 @@ class VelociteTable extends Table{
       return $result;
     }
     
+     public function getAll($id){
+      $req = 'SELECT v.*, s.* FROM '.$this->table.' v
+      LEFT JOIN '.self::TABLE_SPRINT .' s ON s.id = v.idSprint
+      WHERE v.idProjet = ?
+      ORDER BY dateDebut ASC';
+      $result = $this->query($req, [$id]);
+      return $result;
+    }
+    
+    
     public function updateEffort($id, $effort, $idSprint = null) {
       $sql = 'UPDATE '.$this->table.' SET
               effortAttendu = effortAttendu + ? 

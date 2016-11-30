@@ -12,6 +12,28 @@
   </div>
  <?php endif; ?>
  
- <div class="col-md-12 alert alert-success">
-   Not yet implemented
+ <div class="col-md-12">
+  <canvas id="myChart"></canvas>
+
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
+
+   <script>
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: [<?= $velociteInfo["name"]; ?>],
+        datasets: [{
+          label: 'Wanted',
+          data: [<?= $velociteInfo["wanted"]; ?>],
+          backgroundColor: "rgba(153,255,51,0.4)"
+        }, {
+          label: 'Done',
+          data: [<?= $velociteInfo["done"]; ?>],
+          backgroundColor: "rgba(255,153,0,0.4)"
+        }]
+      }
+    });
+   </script>
+   
   </div>

@@ -101,7 +101,11 @@ class KanbanController extends AppController{
        $this->loadModel('Velocite'); 
         
        $usInfo = $this->UserStories->find($idStory);
-       $this->Velocite->updateEffort($id, $usInfo->chiffrage*-1, $idSprint);
+       $sprintInfo = $this->Sprints->find($idSprint);
+       
+       if($sprintInfo->dateFin > date('Y-m-d')) {
+        $this->Velocite->updateEffort($id, $usInfo->chiffrage*-1, $idSprint);
+       }
        $this->UserStories->update(array('id' => $idStory), array('etat' => 0, 'idSprint' => NULL));
        
        

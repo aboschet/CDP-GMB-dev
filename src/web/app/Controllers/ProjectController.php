@@ -33,6 +33,10 @@ class ProjectController extends AppController{
           $_POST['dateFin'] = date('Y-m-d', strtotime($_POST['dateFin']));
           $_POST['idProprietaire'] =  $this->data['userInfo']->id;
           $idInsert = $this->Projects->insert($_POST);
+          
+          $this->loadModel('Velocite');
+          $this->Velocite->insert(array('idProjet' => $idInsert));
+          
           $this->redirect(BASE_URL.'Project/info/'.$idInsert);
         }
         else {
@@ -45,6 +49,41 @@ class ProjectController extends AppController{
         BASE_URL.'assets/js/project_create.js'
       );
       $this->render('project/create', $this->data);
+    }
+    
+    public function calculateVelocite() {
+      
+      $id = $_SESSION['project_id'];
+      $project = $this->Projects->getInfoProject($id);
+      if(!$project || !$this->Projects->haveAccess($id, $_SESSION['auth'])) {
+        unset($_SESSION['project_id']);
+        $this->redirect(BASE_URL.'Project/all');
+      }
+      
+      $this->loadModel('Velocite');
+      $velocite = $this->Velocite->getAll($id);
+      $effort = $velocite[0]->effortAttendu;
+      unset($velocite[0]);
+      
+      $wanted = [$effort];
+      $done = [$effort];
+      $name = ["'Sprint 0'"];
+      $lastEffort = $effort;
+      $i = 1;
+      foreach($velocite as $v) {
+        $name[] = "'Sprint ".$i."'";
+        $wanted[] = $lastEffort-$v->effortAttendu;
+        $lastEffort = $lastEffort-$v->effortFait;
+        $done[] = $lastEffort;
+        $i++;
+      }
+      
+      return array(
+        'wanted' => implode(',', $wanted), 
+        'done' => implode(',', $done), 
+        'name' => implode(',', $name));
+
+  
     }
     
     public function info($id, $action = null) {
@@ -68,14 +107,20 @@ class ProjectController extends AppController{
           }
         }
       }
-    
+      
+      $this->data['velociteInfo'] = $this->calculateVelocite();
+      
       $this->data['isOwner'] = $this->Projects->isOwner($id);
       $this->data['showMemberTab'] = !is_null($action);
       $this->data['membersNotInProject'] = $this->Membersproject->getMembersIsNotInTheProject($id);
       $this->data['membersProject'] = $this->Membersproject->getMembers($id);
       
       $this->data['projectInfo'] = $project[0];
+       
       $this->render('project/info', $this->data);
+
+
+
     }
     
     public function parameters() {
