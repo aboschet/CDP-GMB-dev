@@ -171,7 +171,7 @@ class ProjectController extends AppController{
         $this->data['message'] = 'Ajout effectué';
       }
       else {
-       $this->data['error'] = 'Une erreur est survenue lors de l\'upload'; 
+       $this->data['error'][] = 'Une erreur est survenue lors de l\'upload'; 
       }
     }
     

@@ -4,7 +4,7 @@ define('APP_PATH', ROOT_PATH.'/app/');
 define('SYSTEM_PATH', ROOT_PATH.'/system/');
 define('VIEWS_PATH', ROOT_PATH.'Views/');
 define('MODELS_PATH', ROOT_PATH.'Models/');
-define('BASE_URL', 'http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'/');
+define('BASE_URL', 'http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']));
 require SYSTEM_PATH . 'App.php';
 use system\App;
 

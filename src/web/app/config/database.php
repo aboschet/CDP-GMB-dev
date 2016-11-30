@@ -1,7 +1,7 @@
 <?php
 return array(
-    "db_user" => "root",
-    "db_pass" => "antoine",
+    "db_user" => "cdp",
+    "db_pass" => "cdp",
     "db_host" => "localhost",
     "db_name" => "cdp"
 );
