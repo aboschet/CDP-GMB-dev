@@ -68,7 +68,7 @@ class ProjectController extends AppController{
           }
         }
       }
-      
+    
       $this->data['isOwner'] = $this->Projects->isOwner($id);
       $this->data['showMemberTab'] = !is_null($action);
       $this->data['membersNotInProject'] = $this->Membersproject->getMembersIsNotInTheProject($id);

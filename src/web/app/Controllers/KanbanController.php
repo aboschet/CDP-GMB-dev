@@ -33,6 +33,10 @@ class KanbanController extends AppController{
        }
        if($this->Projects->isOwner($id)) {
         $this->loadModel('UserStories'); 
+        $this->loadModel('Velocite'); 
+        
+        $usInfo = $this->UserStories->find($_POST['id']);
+        $this->Velocite->updateEffort($id, $usInfo->chiffrage, $_POST['idSprint']);
         $_SESSION["message"] = "L'US à bien été ajouté au Sprint";
         $this->UserStories->update(array('id' => $_POST['id']), array('etat' => 1, 'idSprint' => $_POST['idSprint']));
        }
@@ -85,6 +89,10 @@ class KanbanController extends AppController{
        }
        $_SESSION["message"] = "L'US a été supprimé de ce sprint";
        $this->loadModel('UserStories'); 
+       $this->loadModel('Velocite'); 
+        
+        $usInfo = $this->UserStories->find($_POST['id']);
+        $this->Velocite->updateEffort($id, $usInfo->chiffrage*-1, $_POST['idSprint']);
        $this->UserStories->update(array('id' => $idStory), array('etat' => 0, 'idSprint' => NULL));
        
        
@@ -99,6 +107,11 @@ class KanbanController extends AppController{
         $this->redirect(BASE_URL.'Project/all');
        }
        $_SESSION["message"] = "La tâche vient de changé d'état";
+       $nbTache = $this->Tasks->nbTask(array('idUserStory' => $idStory));
+       if(count($nbTache) == 1 && $nbTache[0]->etat == 'fait') {
+         $this->Velocite->updateDone($id, $usInfo->chiffrage, $_POST['idSprint']);
+         
+       }
        $this->Tasks->update(array('id' => $idStory), array('etat' => $etat));
        
        $this->redirect(BASE_URL.'Kanban/info/'.$idSprint);

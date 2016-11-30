@@ -24,4 +24,13 @@ class TasksTable extends Table{
       $result = $this->query($sql, [$sprintId]);
       return $result;
     }
+    
+    public function nbTask($usId) {
+      $sql = 'SELECT COUNT(*) as nb, etat FROM '.$this->table.'
+      WHERE idUserStory = ?
+      GROUP BY etat';
+      
+      $result = $this->query($sql, [$usId]);
+      return $result;
+    }
 }
