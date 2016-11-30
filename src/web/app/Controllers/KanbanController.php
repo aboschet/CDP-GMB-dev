@@ -150,9 +150,7 @@ class KanbanController extends AppController{
         unset($_SESSION['project_id']);
         $this->redirect(BASE_URL.'Project/all');
       }
-      if(!$this->Projects->isOwner($id)) {
-        $this->redirect(BASE_URL.'Project/all');
-      }
+      
      
       if(isset($_SESSION['message'])) {
         $this->data['message'] = $_SESSION['message'];
@@ -185,6 +183,7 @@ class KanbanController extends AppController{
         BASE_URL.'assets/js/sprint_create.js'
       );
       $this->render('kanban/info', $this->data);
+      echo $_SESSION['project_id'];
     }
         
     
