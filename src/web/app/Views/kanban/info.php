@@ -11,7 +11,7 @@
     <?= $message; ?>
   </div>
  <?php endif; ?>
- 
+
 
   <div class="container">
     <?php if($isOwner && $sprintInfo->dateFin > date('Y-m-d')) { ?>
@@ -32,7 +32,7 @@
     </div>
     <hr>
     <?php } ?>
-    
+
     <div class="col-md-12">
       <table class="table table-bordered table-striped">
         <thead>
@@ -45,7 +45,7 @@
         </thead>
         <tbody>
         <?php foreach($tasks as $task) { ?>
-          <tr>
+          <tr <?php if(isset($task['data'][0]->idDeveloppeur) &&  $task['data'][0]->idDeveloppeur == $_SESSION['auth']) { echo "class='bg-blue'"; } ?> >
             <?php 
               $number = count($task["data"])+1;
               $number = $number == 1 ? 2 : $number;
@@ -55,20 +55,46 @@
               
               <?php if($isOwner && !is_null($task["id"]) && $task["etat"] != 2) { ?>
                 <a href="<?= BASE_URL.'Kanban/deleteStory/'.$sprintId.'/'.$task['id']; ?>" class="btn btn-danger">x</a>
-              <?php } ?>
+              <?php } ?>
             </td>
             <?php 
             $i = 0;
             foreach($task["data"] as $t) { 
-              if($i != 0) { echo "<tr>"; }
+              if($i != 0) { 
+                if($t->idDeveloppeur == $_SESSION['auth']) {
+                  echo "<tr class='bg-blue'>"; 
+                }
+                else {
+                  echo "<tr>"; 
+                }
+              }
               $i++;
               switch($t->etat) {
                 case 'nonFait' :
                   echo "<td>"
-                          .$t->nom.
-                        "
-                          <a href='".BASE_URL.'Kanban/nextTask/enCours/'.$sprintId.'/'.$t->id."' class='btn btn-xs btn-success'>-></a>
-                        </td>
+                          .$t->nom;
+                  if($isOwner || $t->idDeveloppeur == $_SESSION['auth']) {
+                          echo "<a href='".BASE_URL.'Kanban/nextTask/enCours/'.$sprintId.'/'.$t->id."' class='btn btn-xs btn-success'>-></a>";
+                          echo "<form action='".BASE_URL.'Kanban/updateDev'."' method='POST'>";
+                          echo "<input type='hidden' name='idSprint' value='".$sprintId."'>";
+                          echo "<input type='hidden' name='id' value='".$t->id."'>";
+                          echo "<select name='idDeveloppeur'>
+                            <option value='".$projectInfo->idProprietaire."'>".$projectInfo->pseudo."</option>
+                          ";
+                            foreach($membersProject as $m) {
+                              echo "<option value='".$m->idDeveloppeur."'";
+                              if($m->idDeveloppeur == $t->idDeveloppeur) {
+                                echo "selected='selected'";
+                              }
+                              echo ">";
+                              echo $m->pseudo;
+                              echo "</option>";
+                            }
+                          echo "</select>     
+                          <button class='btn btn-xs'>Modifier</button>                     
+                          </form>";
+                  }
+                  echo "</td>
                         <td></td>
                         <td></td>
                         <td></td>";
@@ -76,10 +102,32 @@
                 case 'enCours' :
                   echo "<td></td>
                         <td>"
-                          .$t->nom.
-                        "
-                          <a href='".BASE_URL.'Kanban/nextTask/test/'.$sprintId.'/'.$t->id."' class='btn btn-xs btn-success'>-></a>
-                        </td>
+                          .$t->nom;
+                  if($isOwner || $t->idDeveloppeur == $_SESSION['auth']) {
+                          echo "<a href='".BASE_URL.'Kanban/nextTask/test/'.$sprintId.'/'.$t->id."' class='btn btn-xs btn-success'>-></a>";
+                          echo "<form action='".BASE_URL.'Kanban/updateDev'."' method='POST'>";
+                          echo "<input type='hidden' name='idSprint' value='".$sprintId."'>";
+                          echo "<input type='hidden' name='id' value='".$t->id."'>";
+                          echo "<select name='idDeveloppeur'>
+                            <option value='".$projectInfo->idProprietaire."'>".$projectInfo->pseudo."</option>
+                          ";
+                            foreach($membersProject as $m) {
+                              echo "<option value='".$m->idDeveloppeur."'";
+                              if($m->idDeveloppeur == $t->idDeveloppeur) {
+                                echo "selected='selected'";
+                              }
+                              echo ">";
+                              echo $m->pseudo;
+                              echo "</option>";
+                            }
+                          echo "</select>     
+                          <button class='btn btn-xs'>Modifier</button>                     
+                          </form>";
+                  }
+                  
+                  
+                  
+                  echo "</td>
                         <td></td>
                         <td></td>";
                   break;
@@ -87,10 +135,29 @@
                   echo "<td></td>
                         <td></td>
                         <td>"
-                          .$t->nom.
-                        "
-                          <a href='".BASE_URL.'Kanban/nextTask/fait/'.$sprintId.'/'.$t->id."' class='btn btn-xs btn-success'>-></a>
-                        </td>
+                          .$t->nom;
+                  if($isOwner || $t->idDeveloppeur == $_SESSION['auth']) {
+                          echo "<a href='".BASE_URL.'Kanban/nextTask/fait/'.$sprintId.'/'.$t->id."' class='btn btn-xs btn-success'>-></a>";
+                          echo "<form action='".BASE_URL.'Kanban/updateDev'."' method='POST'>";
+                          echo "<input type='hidden' name='idSprint' value='".$sprintId."'>";
+                          echo "<input type='hidden' name='id' value='".$t->id."'>";
+                          echo "<select name='idDeveloppeur'>
+                            <option value='".$projectInfo->idProprietaire."'>".$projectInfo->pseudo."</option>
+                          ";
+                            foreach($membersProject as $m) {
+                              echo "<option value='".$m->idDeveloppeur."'";
+                              if($m->idDeveloppeur == $t->idDeveloppeur) {
+                                echo "selected='selected'";
+                              }
+                              echo ">";
+                              echo $m->pseudo;
+                              echo "</option>";
+                            }
+                          echo "</select>     
+                          <button class='btn btn-xs'>Modifier</button>                     
+                          </form>";
+                  }      
+                  echo "</td>
                         <td></td>";
                   break;
                 case 'fait' :
@@ -99,8 +166,26 @@
                         <td></td>
                         <td>"
                           .$t->nom;
-                  if(!$task['etat'] == 2) {
+                  if(!$task['etat'] == 2 && ($isOwner || $t->idDeveloppeur == $_SESSION['auth'])) {
                     echo  "<a href='".BASE_URL.'Kanban/nextTask/nonFait/'.$sprintId.'/'.$t->id."' class='btn btn-xs btn-danger'>R</a>";
+                     echo "<form action='".BASE_URL.'Kanban/updateDev'."' method='POST'>";
+                          echo "<input type='hidden' name='idSprint' value='".$sprintId."'>";
+                          echo "<input type='hidden' name='id' value='".$t->id."'>";
+                          echo "<select name='idDeveloppeur'>
+                            <option value='".$projectInfo->idProprietaire."'>".$projectInfo->pseudo."</option>
+                          ";
+                            foreach($membersProject as $m) {
+                              echo "<option value='".$m->idDeveloppeur."'";
+                              if($m->idDeveloppeur == $t->idDeveloppeur) {
+                                echo "selected='selected'";
+                              }
+                              echo ">";
+                              echo $m->pseudo;
+                              echo "</option>";
+                            }
+                          echo "</select>     
+                          <button class='btn btn-xs'>Modifier</button>                     
+                          </form>";
                   }
                   
                    echo "</td>";
@@ -133,7 +218,7 @@
               <td></td>
               <td></td>
               <td></td>
-              <?php } ?>
+              <?php } ?>
             </tr>
         <?php
         } ?>

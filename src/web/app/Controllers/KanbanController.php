@@ -46,6 +46,12 @@ class KanbanController extends AppController{
       
     }
     
+    public function updateDev() {
+      $this->Tasks->update(array('id' => $_POST['id']), array('idDeveloppeur' => $_POST['idDeveloppeur']));
+      $_SESSION["message"] = 'La tâche vient d\'être affecté à un autre développeur';
+      $this->redirect(BASE_URL.'Kanban/info/'.$_POST['idSprint']);
+    }
+    
     public function addTask() {
        $id = $_SESSION['project_id'];
        $project = $this->Projects->getInfoProject($id);
@@ -158,10 +164,13 @@ class KanbanController extends AppController{
         unset($_SESSION['error']);
       }
       
+      $this->loadModel('Membersproject'); 
+      $this->data['membersProject'] = $this->Membersproject->getMembers($id);
+           
       $this->loadModel('UserStories');      
       $this->data['userstories'] = $this->UserStories->getNotAffectedUS($id);
       $USofSprint = $this->UserStories->getUsOfSprint($idSprint);
-      $tasks[] = array("name" => "ALL", "id" => NULL, "data" => $this->Tasks->getTasksOfAll($idSprint));
+      $tasks[] = array("name" => "ALL", 'etat' => NULL, "id" => NULL, "data" => $this->Tasks->getTasksOfAll($idSprint));
       foreach($USofSprint as $idUS) {
         $tasks[] = array("name" => $idUS->nom, "etat" => $idUS->etat, "id" => $idUS->id, "data" => $this->Tasks->getTasksOfUS($idSprint, $idUS->id));
       }
