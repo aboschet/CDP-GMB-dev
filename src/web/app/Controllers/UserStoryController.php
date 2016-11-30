@@ -34,7 +34,7 @@ class UserStoryController extends AppController{
         $_POST['idProjet'] = $id;
         $this->UserStories->insert($_POST);
         $this->loadModel('Velocite');
-        $this->Velocite->updateEffort($id, $_POST['chiffrage']);        
+        $this->Velocite->updateEffortAddStory($id, $_POST['chiffrage']);        
         $_SESSION['message'] = 'User story ajouté avec succès';
       }
       else {
@@ -51,7 +51,7 @@ class UserStoryController extends AppController{
       
       $usInfo = $this->UserStories->find($idUS);
       $this->loadModel('Velocite');
-      $this->Velocite->updateEffort($id, $usInfo->chiffrage*-1);        
+      $this->Velocite->updateEffortDeleteStory($id, $usInfo->chiffrage*-1, $usInfo->idSprint);        
       
       $this->UserStories->delete(array('id' => $idUS));
       $_SESSION["message"] = "L'US a bien été supprimé";

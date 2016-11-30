@@ -38,6 +38,29 @@ class VelociteTable extends Table{
       $this->query($sql, $where);      
     }
     
+    public function updateEffortDeleteStory($id, $effort, $idSprint) {
+      $sql = 'UPDATE '.$this->table.' SET
+              effortAttendu = effortAttendu + ? 
+              WHERE idProjet = ? AND (idSprint IS NULL';
+      $where = array($effort, $id);
+      if(!is_null($idSprint)) {
+       $sql .= ' OR idSprint = ?';
+       $where[] = $idSprint; 
+      }
+      $sql .= ')';
+      $this->query($sql, $where);      
+    }
+    
+    public function updateEffortAddStory($id, $effort) {
+      $sql = 'UPDATE '.$this->table.' SET
+              effortAttendu = effortAttendu + ? 
+              WHERE idProjet = ? AND idSprint IS NULL';
+      $where = array($effort, $id);
+     
+      $this->query($sql, $where);      
+    }
+    
+    
     public function updateDone($id, $effort, $idSprint = null) {
       $sql = 'UPDATE '.$this->table.' SET
               effortFait = effortFait + ? 

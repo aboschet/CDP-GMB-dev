@@ -25,12 +25,16 @@
         labels: [<?= $velociteInfo["name"]; ?>],
         datasets: [{
           label: 'Wanted',
+          fill: false,
           data: [<?= $velociteInfo["wanted"]; ?>],
-          backgroundColor: "rgba(153,255,51,0.4)"
+          borderColor: "rgba(153,255,51,0.4)",
+          spanGaps: false
         }, {
           label: 'Done',
+          fill: false,
           data: [<?= $velociteInfo["done"]; ?>],
-          backgroundColor: "rgba(255,153,0,0.4)"
+          borderColor: "rgba(255,153,0,0.4)",
+          spanGaps: false
         }]
       }
     });
