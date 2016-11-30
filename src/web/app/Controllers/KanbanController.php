@@ -79,7 +79,7 @@ class KanbanController extends AppController{
        $this->Tasks->delete(array('id' => $idTask));
        $nbTache = $this->Tasks->nbTask(array('idUserStory' => $taskInfo->idUserStory));
        $usInfo = $this->UserStories->find($taskInfo->idUserStory);
-       if(count($nbTache) == 1 && $nbTache[0]->etat == 'fait') {
+       if(!is_null($idSprint) && count($nbTache) == 1 && $nbTache[0]->etat == 'fait') {
          $this->loadModel('Velocite');
          $this->Velocite->updateDone($id, $usInfo->chiffrage, $_POST['idSprint']);
          $this->UserStories->update(array('id' => $taskInfo->idUserStory), array('etat' => 2));
@@ -126,7 +126,7 @@ class KanbanController extends AppController{
        $nbTache = $this->Tasks->nbTask($idUs);
        $usInfo = $this->UserStories->find($idUs);
        
-       if(count($nbTache) == 1 && $nbTache[0]->etat == 'fait') {
+       if(!is_null($idSprint) && count($nbTache) == 1 && $nbTache[0]->etat == 'fait') {
          $this->loadModel('Velocite');
          
          $this->Velocite->updateDone($id, $usInfo->chiffrage, $idSprint);
