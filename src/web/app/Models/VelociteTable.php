@@ -18,9 +18,9 @@ class VelociteTable extends Table{
     
     public function updateEffort($id, $effort, $idSprint = null) {
       $sql = 'UPDATE '.$this->table.' SET
-              effortAttendu += ? 
+              effortAttendu = effortAttendu + ? 
               WHERE idProjet = ?';
-      $where = array($effort, $effort, $id);
+      $where = array($effort, $id);
       if(!is_null($idSprint)) {
        $sql .= ' AND idSprint = ?';
        $where[] = $idSprint; 
@@ -30,9 +30,9 @@ class VelociteTable extends Table{
     
     public function updateDone($id, $effort, $idSprint = null) {
       $sql = 'UPDATE '.$this->table.' SET
-              effortFait += ? 
+              effortFait = effortFait + ? 
               WHERE idProjet = ?';
-      $where = array($effort, $effort, $id);
+      $where = array($effort, $id);
       if(!is_null($idSprint)) {
        $sql .= ' AND idSprint = ?';
        $where[] = $idSprint; 

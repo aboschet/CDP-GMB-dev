@@ -17,7 +17,8 @@ class KanbanController extends AppController{
         }
         $this->loadModel('Projects');    
         $this->loadModel('Tasks');    
-        $this->loadModel('Sprints');    
+        $this->loadModel('Sprints'); 
+        $this->loadModel('UserStories');   
         
     }
     public function index(){
@@ -73,10 +74,18 @@ class KanbanController extends AppController{
         unset($_SESSION['project_id']);
         $this->redirect(BASE_URL.'Project/all');
        }
+       $taskInfo = $this->Tasks->find($idTask);
        $_SESSION["message"] = "La tâche a bien été supprimé";
        $this->Tasks->delete(array('id' => $idTask));
+       $nbTache = $this->Tasks->nbTask(array('idUserStory' => $taskInfo->idUserStory));
+       $usInfo = $this->UserStories->find($taskInfo->idUserStory);
+       if(count($nbTache) == 1 && $nbTache[0]->etat == 'fait') {
+         $this->loadModel('Velocite');
+         $this->Velocite->updateDone($id, $usInfo->chiffrage, $_POST['idSprint']);
+         $this->UserStories->update(array('id' => $taskInfo->idUserStory), array('etat' => 2));
+       }
        
-        $this->redirect(BASE_URL.'Kanban/info/'.$idSprint);
+       $this->redirect(BASE_URL.'Kanban/info/'.$idSprint);
     }
     
     
@@ -91,8 +100,8 @@ class KanbanController extends AppController{
        $this->loadModel('UserStories'); 
        $this->loadModel('Velocite'); 
         
-        $usInfo = $this->UserStories->find($_POST['id']);
-        $this->Velocite->updateEffort($id, $usInfo->chiffrage*-1, $_POST['idSprint']);
+       $usInfo = $this->UserStories->find($idStory);
+       $this->Velocite->updateEffort($id, $usInfo->chiffrage*-1, $idSprint);
        $this->UserStories->update(array('id' => $idStory), array('etat' => 0, 'idSprint' => NULL));
        
        
@@ -106,14 +115,20 @@ class KanbanController extends AppController{
         unset($_SESSION['project_id']);
         $this->redirect(BASE_URL.'Project/all');
        }
+        $this->Tasks->update(array('id' => $idStory), array('etat' => $etat));
        $_SESSION["message"] = "La tâche vient de changé d'état";
-       $nbTache = $this->Tasks->nbTask(array('idUserStory' => $idStory));
-       if(count($nbTache) == 1 && $nbTache[0]->etat == 'fait') {
-         $this->Velocite->updateDone($id, $usInfo->chiffrage, $_POST['idSprint']);
-         
-       }
-       $this->Tasks->update(array('id' => $idStory), array('etat' => $etat));
+       $idUs = $this->Tasks->find($idStory)->idUserStory;
        
+       $nbTache = $this->Tasks->nbTask($idUs);
+       $usInfo = $this->UserStories->find($idUs);
+       
+       if(count($nbTache) == 1 && $nbTache[0]->etat == 'fait') {
+         $this->loadModel('Velocite');
+         
+         $this->Velocite->updateDone($id, $usInfo->chiffrage, $idSprint);
+         $this->UserStories->update(array('id' => $idUs), array('etat' => 2));
+       }
+      
        $this->redirect(BASE_URL.'Kanban/info/'.$idSprint);
     }
     
@@ -143,14 +158,14 @@ class KanbanController extends AppController{
       $USofSprint = $this->UserStories->getUsOfSprint($idSprint);
       $tasks[] = array("name" => "ALL", "id" => NULL, "data" => $this->Tasks->getTasksOfAll($idSprint));
       foreach($USofSprint as $idUS) {
-        $tasks[] = array("name" => $idUS->nom, "id" => $idUS->id, "data" => $this->Tasks->getTasksOfUS($idSprint, $idUS->id));
+        $tasks[] = array("name" => $idUS->nom, "etat" => $idUS->etat, "id" => $idUS->id, "data" => $this->Tasks->getTasksOfUS($idSprint, $idUS->id));
       }
       $this->data['tasks'] = $tasks;
       
       $this->data['projectInfo'] = $project[0];
       $this->data['isOwner'] = $this->Projects->isOwner($id);
       $this->data['sprintId'] = $idSprint;
-
+      $this->data['sprintInfo'] = $this->Sprints->find($idSprint);
       $this->data['js'] = array(
         'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js',
         BASE_URL.'assets/js/sprint_create.js'

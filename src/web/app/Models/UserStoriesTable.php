@@ -20,7 +20,7 @@ class UserStoriesTable extends Table{
     }
     
     public function getUsOfSprint($sprintId) {
-      $req = 'SELECT id, nom FROM '.$this->table.'
+      $req = 'SELECT id, nom, etat FROM '.$this->table.'
       WHERE idSprint = ?';
       $result = $this->query($req, [$sprintId]);
       return $result;

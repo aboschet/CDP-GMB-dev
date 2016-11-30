@@ -34,6 +34,9 @@ class SprintController extends AppController{
       $this->loadModel('UserStories');    
       $this->UserStories->update(array('idSprint' => $idSprint), array('idSprint' => NULL, 'etat' => 0));
       
+      $this->loadModel('Tasks');
+      $this->Tasks->delete(array('idSprint' => $idSprint));
+      
       $this->Sprints->delete(array('id' => $idSprint));
       
       $this->loadModel('Velocite');

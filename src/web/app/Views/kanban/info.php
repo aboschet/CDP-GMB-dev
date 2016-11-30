@@ -14,7 +14,7 @@
  
 
   <div class="container">
-    <?php if($isOwner) { ?>
+    <?php if($isOwner && $sprintInfo->dateFin > date('Y-m-d')) { ?>
     <div class="row">
       <div class="pull-right">
         <form action="<?= BASE_URL.'Kanban/addStory'; ?>" method="POST">
@@ -44,7 +44,6 @@
           <th>Action</th>
         </thead>
         <tbody>
-          
         <?php foreach($tasks as $task) { ?>
           <tr>
             <?php 
@@ -53,7 +52,8 @@
             ?>
             <td rowspan="<?= $number; ?>">
               <?= $task["name"]; ?><br />
-              <?php if(!is_null($task["id"])) { ?>
+              
+              <?php if($isOwner && !is_null($task["id"]) && $task["etat"] != 2) { ?>
                 <a href="<?= BASE_URL.'Kanban/deleteStory/'.$sprintId.'/'.$task['id']; ?>" class="btn btn-danger">x</a>
               <?php } ?>
             </td>
@@ -98,22 +98,29 @@
                         <td></td>
                         <td></td>
                         <td>"
-                          .$t->nom.
-                        "
-                          <a href='".BASE_URL.'Kanban/nextTask/nonFait/'.$sprintId.'/'.$t->id."' class='btn btn-xs btn-danger'>R</a>
-                        </td>";
+                          .$t->nom;
+                  if(!$task['etat'] == 2) {
+                    echo  "<a href='".BASE_URL.'Kanban/nextTask/nonFait/'.$sprintId.'/'.$t->id."' class='btn btn-xs btn-danger'>R</a>";
+                  }
+                  
+                   echo "</td>";
                   break;
               }
              
             ?>
             
-            <?php if($isOwner || $t->idDeveloppeur == $_SESSION['auth']) { ?>
-            <td><a href="<?= BASE_URL.'Kanban/deleteTask/'.$sprintId.'/'.$t->id; ?>">Supprimer</a></td>
-            <?php } ?> 
+            <td>
+             <?php if(($isOwner || $t->idDeveloppeur == $_SESSION['auth']) && $task['etat'] != 2) { ?>
+                <a href="<?= BASE_URL.'Kanban/deleteTask/'.$sprintId.'/'.$t->id; ?>">Supprimer</a>
+             <?php } ?> 
+            </td>
+           
             </tr>
            <?php } ?>
            </tr>
+           
             <tr>
+               <?php if($task['etat'] != 2) { ?>
               <td>
                 <form action="<?= BASE_URL.'Kanban/addTask'; ?>" method="POST">
                   <input type="hidden" name="idUserStory" value="<?= $task["id"]; ?>">
@@ -126,9 +133,10 @@
               <td></td>
               <td></td>
               <td></td>
+              <?php } ?>
             </tr>
-            
-        <?php } ?>
+        <?php
+        } ?>
         </tbody>
       </table>
     </div>

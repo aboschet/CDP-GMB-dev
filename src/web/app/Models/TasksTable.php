@@ -29,7 +29,6 @@ class TasksTable extends Table{
       $sql = 'SELECT COUNT(*) as nb, etat FROM '.$this->table.'
       WHERE idUserStory = ?
       GROUP BY etat';
-      
       $result = $this->query($sql, [$usId]);
       return $result;
     }
