@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Lun 28 Novembre 2016 à 20:39
+-- Généré le :  Mer 30 Novembre 2016 à 12:06
 -- Version du serveur :  5.5.53-0+deb8u1
 -- Version de PHP :  5.6.27-0+deb8u1
 
@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `sprint` (
   `dateDebut` date NOT NULL,
   `dateFin` date NOT NULL,
   `idProjet` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS `tache` (
   `idUserStory` int(11) DEFAULT NULL,
   `idDeveloppeur` int(11) NOT NULL,
   `idSprint` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -94,7 +94,7 @@ CREATE TABLE IF NOT EXISTS `tests` (
   `upload` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `idProjet` int(11) NOT NULL,
   `idUS` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -130,6 +130,21 @@ CREATE TABLE IF NOT EXISTS `utilisateur` (
   `email` varchar(255) CHARACTER SET utf8 NOT NULL,
   `motDePasse` varchar(255) CHARACTER SET utf8 NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `velocite`
+--
+
+DROP TABLE IF EXISTS `velocite`;
+CREATE TABLE IF NOT EXISTS `velocite` (
+`id` int(11) NOT NULL,
+  `idProjet` int(11) NOT NULL,
+  `idSprint` int(11) DEFAULT NULL,
+  `effortAttendu` int(11) NOT NULL,
+  `effortFait` int(11) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 --
 -- Index pour les tables exportées
@@ -178,6 +193,12 @@ ALTER TABLE `utilisateur`
  ADD PRIMARY KEY (`id`);
 
 --
+-- Index pour la table `velocite`
+--
+ALTER TABLE `velocite`
+ ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT pour les tables exportées
 --
 
@@ -195,17 +216,17 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 -- AUTO_INCREMENT pour la table `sprint`
 --
 ALTER TABLE `sprint`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT pour la table `tache`
 --
 ALTER TABLE `tache`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT pour la table `tests`
 --
 ALTER TABLE `tests`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT pour la table `userstory`
 --
@@ -216,6 +237,11 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 ALTER TABLE `utilisateur`
 MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT pour la table `velocite`
+--
+ALTER TABLE `velocite`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- Contraintes pour les tables exportées
 --
