@@ -52,6 +52,7 @@
           <?php if (!$isLogged): ?>
             <li class="active"><a href="<?= BASE_URL; ?>">Connexion / Inscription</a></li>
           <?php else :?>
+            <li class="active"><a href="<?= BASE_URL.'User/profil'; ?>">Profil</a></li>
             <li class="active"><a href="<?= BASE_URL.'Home/disconnect'; ?>">Déconnexion</a></li>
           <?php endif;?>
           </ul>
